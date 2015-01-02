@@ -1,0 +1,9 @@
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
+[assembly: AssemblyDescription("")]
+[assembly: ComVisible(false)]
+[assembly: Guid("7d3e632a-89cd-407a-8bda-79796d278121")]
+
+[assembly: InternalsVisibleTo("VfpClient.Tests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100b57318f8b49815227ae0f03265109baf707a3bc7900275e80288ecaf4563bb1304eedae4b59812348b38eb42fabc5c0108e3a1ca77242fa55806956f959233bcdbb6c01554f98e6443e7a642fbdab278c9dc7410adf9c7cf802cccc11692ef89806e69b3267c90f1d10e48b1e4e0f71fc7d6471aebd780a0285077661645c4c8")]

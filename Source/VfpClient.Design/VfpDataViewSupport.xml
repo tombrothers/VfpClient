@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DataViewSupport xmlns="http://schemas.microsoft.com/VisualStudio/2007/07/Data/DataViewSupport">
+  <Views>
+    <View name="Visual FoxPro Data">
+      <DisplayName resource="DataView" />
+      <ConnectionNode>
+        <InitialDisplayName>{Root.Name}</InitialDisplayName>
+        <Commands>
+          <Command guid="501822E1-B5AF-11d0-B4DC-00A0C91506EF"
+                   cmdid="13608"
+                   provider="884DD964-5327-461f-9F06-6484DD540F8F" />
+        </Commands>
+        <Children>
+          <StaticNode>
+            <DisplayName resource="DataViewSupport_Tables" />
+            <Commands>
+              <Command guid="501822E1-B5AF-11d0-B4DC-00A0C91506EF"
+                       cmdid="13608"
+                       provider="884DD964-5327-461f-9F06-6484DD540F8F" />
+            </Commands>
+            <Children>
+              <Selection type="Tables">
+                <SelectionNode nodeId="Table">
+                  <DisplayName resource="{Table.TableName}" />
+                  <Icon name="Table" />
+                  <Commands>
+                    <!--<Command guid="501822E1-B5AF-11d0-B4DC-00A0C91506EF"
+                             cmdid="12384"
+                             provider="884DD964-5327-461f-9F06-6484DD540F8F" />-->
+                  </Commands>
+                  <Children>
+                    <Selection type="TableFields"
+                               restrictions="{Table.TableName}">
+                      <SelectionNode nodeId="TableField">
+                        <DisplayName resource="{TableField.FieldName}" />
+                        <Icon name="Column" />
+                      </SelectionNode>
+                    </Selection>
+                  </Children>
+                </SelectionNode>
+              </Selection>
+            </Children>
+          </StaticNode>
+          <StaticNode>
+            <DisplayName resource="DataViewSupport_Views" />
+            <Commands>
+              <Command guid="501822E1-B5AF-11d0-B4DC-00A0C91506EF"
+                       cmdid="13608"
+                       provider="884DD964-5327-461f-9F06-6484DD540F8F" />
+            </Commands>
+            <Children>
+              <Selection type="Views">
+                <SelectionNode nodeId="View">
+                  <DisplayName resource="{View.ViewName}" />
+                  <Icon name="View" />
+                  <Commands>
+                    <!--<Command guid="501822E1-B5AF-11d0-B4DC-00A0C91506EF"
+                             cmdid="12384"
+                             provider="884DD964-5327-461f-9F06-6484DD540F8F" />-->
+                  </Commands>
+                  <Children>
+                    <Selection type="ViewFields"
+                               restrictions="{View.ViewName}">
+                      <SelectionNode nodeId="ViewField">
+                        <DisplayName resource="{ViewField.FieldName}" />
+                        <Icon name="Column" />
+                      </SelectionNode>
+                    </Selection>
+                  </Children>
+                </SelectionNode>
+              </Selection>
+            </Children>
+          </StaticNode>
+          <StaticNode>
+            <DisplayName resource="DataViewSupport_Procedures" />
+            <Children>
+              <Selection type="Procedures">
+                <SelectionNode nodeId="Procedure">
+                  <DisplayName resource="{Procedure.ProcedureName}" />
+                  <Icon name="StoredProcedure" />
+                  <Children>
+                    <Selection type="ProcedureParameters"
+                               restrictions="{Procedure.ProcedureName}">
+                      <SelectionNode nodeId="ProcedureParameter">
+                        <DisplayName resource="{ProcedureParameter.ParameterName}" />
+                        <Icon name="InputParameter" />
+                      </SelectionNode>
+                    </Selection>
+                  </Children>
+                </SelectionNode>
+              </Selection>
+            </Children>
+          </StaticNode>
+        </Children>
+      </ConnectionNode>
+    </View>
+  </Views>
+  <Resources baseName="VfpClient.Design.Properties.Resources" />
+</DataViewSupport>

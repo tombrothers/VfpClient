@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VfpMapping>
+	<Item VfpType="Character" FieldType="C({0})" ClrType="System.String" DbTypeName="DBTYPE_CHAR">
+		<DbType>StringFixedLength</DbType>
+		<DbType>AnsiStringFixedLength</DbType>
+		<OleDbType>Char</OleDbType>
+    <OleDbType>WChar</OleDbType>
+	</Item>
+	<Item VfpType="Currency" FieldType="Y" ClrType="System.Decimal" DbTypeName="DBTYPE_CY">
+		<DbType>Currency</DbType>
+		<OleDbType>Currency</OleDbType>
+	</Item>
+	<Item VfpType="Date" FieldType="D" ClrType="System.DateTime" DbTypeName="DBTYPE_DBDATE">
+		<DbType>Date</DbType>
+		<DbType>Time</DbType>
+		<OleDbType>Date</OleDbType>
+		<OleDbType>DBDate</OleDbType>
+	</Item>
+	<Item VfpType="DateTime" FieldType="T" ClrType="System.DateTime" DbTypeName="DBTYPE_DBTIMESTAMP">
+		<DbType>DateTime</DbType>
+		<OleDbType>DBTimeStamp</OleDbType>
+	</Item>
+	<Item VfpType="Double" FieldType="B({0})" ClrType="System.Double" DbTypeName="DBTYPE_R8">
+		<DbType>Double</DbType>
+		<OleDbType>Double</OleDbType>
+	</Item>
+	<Item VfpType="Float" FieldType="F({0}, {1})" ClrType="System.Decimal">
+		<DbType>Single</DbType>
+		<OleDbType>Single</OleDbType>
+	</Item>
+	<Item VfpType="Integer" FieldType="I" ClrType="System.Int32" DbTypeName="DBTYPE_I4">
+		<DbType>Int32</DbType>
+		<DbType>Byte</DbType>
+		<DbType>Int16</DbType>
+		<DbType>SByte</DbType>
+		<DbType>UInt16</DbType>
+		<OleDbType>Integer</OleDbType>
+		<OleDbType>TinyInt</OleDbType>
+		<OleDbType>SmallInt</OleDbType>
+		<OleDbType>UnsignedTinyInt</OleDbType>
+		<OleDbType>UnsignedSmallInt</OleDbType>
+	</Item>
+	<Item VfpType="Logical" FieldType="L" ClrType="System.Boolean" DbTypeName="DBTYPE_BOOL">
+		<DbType>Boolean</DbType>
+		<OleDbType>Boolean</OleDbType>
+	</Item>
+	<Item VfpType="Numeric" FieldType="N({0}, {1})" ClrType="System.Decimal" DbTypeName="DBTYPE_NUMERIC">
+		<DbType>Decimal</DbType>
+		<DbType>Int64</DbType>
+		<DbType>UInt32</DbType>
+		<DbType>UInt64</DbType>
+		<DbType>VarNumeric</DbType>
+		<OleDbType>Numeric</OleDbType>
+		<OleDbType>UnsignedInt</OleDbType>
+		<OleDbType>BigInt</OleDbType>
+		<OleDbType>UnsignedBigInt</OleDbType>
+		<OleDbType>VarNumeric</OleDbType>
+    <OleDbType>Decimal</OleDbType>
+	</Item>
+	<Item VfpType="Varbinary" FieldType="Q({0})" ClrType="System.Byte[]">
+		<DbType>Binary</DbType>
+		<OleDbType>VarBinary</OleDbType>
+	</Item>
+  <Item VfpType="Blob" FieldType="W" ClrType="System.Byte[]">
+    <DbType>Binary</DbType>
+    <OleDbType>LongVarBinary</OleDbType>
+  </Item>
+	<Item VfpType="Varchar" FieldType="V({0})" ClrType="System.String" AddBinaryType="true" DbTypeName="DBTYPE_VARBINARY">
+		<DbType>String</DbType>
+		<DbType>AnsiString</DbType>
+		<DbType>Guid</DbType>
+		<DbType>Xml</DbType>
+		<OleDbType>VarChar</OleDbType>
+    <OleDbType>VarWChar</OleDbType>
+		<OleDbType>Guid</OleDbType>
+	</Item>
+  <Item VfpType="Memo" FieldType="M" ClrType="System.String" DbTypeName="DBTYPE_LONGVARCHAR" AddBinaryType="true">
+    <DbType>String</DbType>
+    <OleDbType>LongVarChar</OleDbType>
+  </Item>
+	<Item VfpType="Variant" ClrType="System.Object">
+		<DbType>Object</DbType>
+		<OleDbType>Variant</OleDbType>
+	</Item>
+  <Item VfpType="General" FieldType="G" ClrType="System.Byte[]">
+    <DbType>Object</DbType>
+    <OleDbType>LongVarBinary</OleDbType>
+    <OleDbType>Binary</OleDbType>
+  </Item>
+	<Item VfpType="AutoIncInteger" TypeName="Integer (AutoInc)" FieldType="I AUTOINC" ClrType="System.Int32">
+		<DbType>Int32</DbType>
+		<OleDbType>Integer</OleDbType>
+	</Item>
+	<Item VfpType="BinaryCharacter" TypeName="Character (binary)" FieldType="C({0}) NOCPTRANS" ClrType="System.String" DbTypeName="DBTYPE_BINARY" IsBinaryType="true">
+		<DbType>StringFixedLength</DbType>
+		<DbType>AnsiStringFixedLength</DbType>
+		<OleDbType>Char</OleDbType>
+	</Item>
+	<Item VfpType="BinaryMemo" TypeName="Memo (binary)" FieldType="M NOCPTRANS" ClrType="System.String" DbTypeName="DBTYPE_LONGVARBINARY" IsBinaryType="true">
+		<DbType>String</DbType>
+		<OleDbType>LongVarChar</OleDbType>
+	</Item>
+	<Item VfpType="BinaryVarchar" TypeName="Varchar (binary)" FieldType="V({0}) NOCPTRANS" ClrType="System.String" IsBinaryType="true">
+		<DbType>String</DbType>
+		<DbType>AnsiString</DbType>
+		<DbType>Guid</DbType>
+		<DbType>Xml</DbType>
+		<OleDbType>VarChar</OleDbType>
+		<OleDbType>Guid</OleDbType>
+	</Item>
+</VfpMapping>

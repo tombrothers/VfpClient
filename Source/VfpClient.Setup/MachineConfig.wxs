@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" 
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Fragment>
+    <ComponentGroup Id="CG_MachineConfig">
+      <ComponentRef Id="CMP_MachineConfig_Net2"/>
+      <ComponentRef Id="CMP_MachineConfig_Net4"/>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

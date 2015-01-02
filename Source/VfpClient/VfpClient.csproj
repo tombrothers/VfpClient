@@ -1,0 +1,354 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{02A3762B-BF7F-4A52-9662-8E0C9655314B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VfpClient</RootNamespace>
+    <AssemblyName>VfpClient</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_40|x86' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Build\VfpClient.Setup\Resources\net40\</OutputPath>
+    <DefineConstants>TRACE;NET_40</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\..\..\TRBDev.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release_45|x86'">
+    <OutputPath>..\Build\VfpClient.Setup\Resources\net45\</OutputPath>
+    <DefineConstants>TRACE;NET_45</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release_35|x86'">
+    <OutputPath>..\Build\VfpClient.Setup\Resources\net35\</OutputPath>
+    <DefineConstants>TRACE;NET_35</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ArgumentUtility.cs" />
+    <Compile Include="Collation.cs" />
+    <Compile Include="CollationEnumConverter.cs" />
+    <Compile Include="Utils\CommandTextHandler.cs">
+      <DependentUpon>CommandTextParser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\FirstValidTokenHandler.cs">
+      <DependentUpon>CommandTextParser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\ITokenHandler.cs">
+      <DependentUpon>CommandTextParser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TraceSourceExtentions.cs" />
+    <Compile Include="Utils\DbcCreator\DataTableDbcCreator.cs" />
+    <Compile Include="Utils\DbcCreator\DataTableToTableConverter.cs" />
+    <Compile Include="Utils\DbcCreator\DbcCreatorBase.cs" />
+    <Compile Include="Utils\DbcCreator\DbcFilesProvider.cs" />
+    <Compile Include="Utils\DbcCreator\Field.cs" />
+    <Compile Include="Utils\DbcCreator\IDbcFilesProvider.cs" />
+    <Compile Include="Utils\DbcCreator\IndexNameFixer.cs" />
+    <Compile Include="Utils\DbcCreator\VfpCodeFieldConverter.cs" />
+    <Compile Include="Utils\DbcCreator\Index.cs" />
+    <Compile Include="Utils\DbcCreator\ITableConverter.cs" />
+    <Compile Include="Utils\DbcCreator\Table.cs" />
+    <Compile Include="Utils\DbcCreator\VfpCodeIndexConverter.cs" />
+    <Compile Include="Utils\DbcCreator\VfpCodeTableConverter.cs" />
+    <Compile Include="Utils\TokenEvaluator.cs">
+      <DependentUpon>CommandTextParser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\OrderedTokenHandler.cs">
+      <DependentUpon>CommandTextParser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\CommandTextParser.cs" />
+    <Compile Include="Utils\TokenHandler.cs">
+      <DependentUpon>CommandTextParser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\UnOrderedTokenHandler.cs">
+      <DependentUpon>CommandTextParser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\ParameterNameToQuestionMarkRewriter.cs">
+      <DependentUpon>VfpCommandParameterRewritter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\ParameterOrderingRewriter.cs">
+      <DependentUpon>VfpCommandParameterRewritter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\SharedAssemblyInfo.cs" />
+    <Compile Include="Utils\RewriterBase.cs">
+      <DependentUpon>VfpCommandParameterRewritter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\DuplicateNameRewriter.cs">
+      <DependentUpon>VfpCommandParameterRewritter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="CandidateKey.cs">
+      <DependentUpon>SchemaColumnNames.cs</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utils\CandidateKeySchemaProvider.cs">
+      <DependentUpon>SchemaManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataSourceInformation.cs">
+      <DependentUpon>SchemaColumnNames.cs</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utils\DataSourceInformationSchemaProvider.cs">
+      <DependentUpon>SchemaManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DataTypes.cs">
+      <DependentUpon>SchemaColumnNames.cs</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utils\DataTypesSchemaProvider.cs">
+      <DependentUpon>SchemaManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ForeignKey.cs">
+      <DependentUpon>SchemaColumnNames.cs</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utils\ForeignKeySchemaProvider.cs">
+      <DependentUpon>SchemaManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Index.cs">
+      <DependentUpon>SchemaColumnNames.cs</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utils\IndexSchemaProvider.cs">
+      <DependentUpon>SchemaManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MetaDataCollection.cs">
+      <DependentUpon>SchemaColumnNames.cs</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PrimaryKey.cs">
+      <DependentUpon>SchemaColumnNames.cs</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utils\PrimaryKeySchemaProvider.cs">
+      <DependentUpon>SchemaManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProcedureColumn.cs">
+      <DependentUpon>SchemaColumnNames.cs</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Procedure.cs">
+      <DependentUpon>SchemaColumnNames.cs</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utils\ProcedureColumnSchemaProvider.cs">
+      <DependentUpon>SchemaManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\ProcedureParameterInfo.cs">
+      <DependentUpon>SchemaManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProcedureParameter.cs">
+      <DependentUpon>SchemaColumnNames.cs</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utils\ProcedureParameterSchemaProvider.cs">
+      <DependentUpon>SchemaManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\ProcedureSchemaProvider.cs">
+      <DependentUpon>SchemaManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReservedWords.cs">
+      <DependentUpon>SchemaColumnNames.cs</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Restriction.cs">
+      <DependentUpon>SchemaColumnNames.cs</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utils\RestrictionSchemaProvider.cs">
+      <DependentUpon>SchemaManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SchemaColumnNames.cs">
+      <DependentUpon>VfpConnection.cs</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TableField.cs">
+      <DependentUpon>SchemaColumnNames.cs</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Table.cs">
+      <DependentUpon>SchemaColumnNames.cs</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utils\ArrayXmlToCursor.cs" />
+    <Compile Include="VfpClientTracing.cs" />
+    <Compile Include="VfpCommandExecutionDetails.cs" />
+    <Compile Include="VfpCommandExecutionStatus.cs" />
+    <Compile Include="VfpCommandMethod.cs" />
+    <Compile Include="VfpTypeExtensions.cs" />
+    <Compile Include="View.cs">
+      <DependentUpon>SchemaColumnNames.cs</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ViewField.cs">
+      <DependentUpon>SchemaColumnNames.cs</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utils\ViewFieldSchemaProvider.cs">
+      <DependentUpon>SchemaManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\SchemaColumn.cs">
+      <DependentUpon>SchemaManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\ISchemaProvider.cs">
+      <DependentUpon>SchemaManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\MetaDataCollectionSchemaProvider.cs">
+      <DependentUpon>SchemaManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\SchemaProviderBase.cs">
+      <DependentUpon>SchemaManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\SchemaManager.cs" />
+    <Compile Include="SchemaNames.cs">
+      <DependentUpon>VfpConnection.cs</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utils\TableFieldSchemaProvider.cs">
+      <DependentUpon>SchemaManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\TableSchemaProvider.cs">
+      <DependentUpon>SchemaManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\ViewSchemaProvider.cs">
+      <DependentUpon>SchemaManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VfpCommand.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="VfpCommand.VfpCodeBuilder.cs">
+      <DependentUpon>VfpCommand.cs</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="VfpCommandBuilder.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utils\VfpCommandParameterRewritter.cs" />
+    <Compile Include="VfpConnection.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="VfpConnectionStringBuilder.cs" />
+    <Compile Include="VfpDataAdapter.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="VfpDataReader.cs" />
+    <Compile Include="VfpDataReader.SchemaFixer.cs">
+      <DependentUpon>VfpDataReader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VfpException.cs" />
+    <Compile Include="VfpMapping.codegen.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VfpMapping.codegen.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VfpParameter.cs" />
+    <Compile Include="VfpParameterCollection.cs" />
+    <Compile Include="VfpClientFactory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VfpRowUpdatedEventArgs.cs" />
+    <Compile Include="VfpRowUpdatedEventHandler.cs" />
+    <Compile Include="VfpRowUpdatingEventArgs.cs" />
+    <Compile Include="VfpRowUpdatingEventHandler.cs" />
+    <Compile Include="VfpTransaction.cs" />
+    <Compile Include="VfpType.cs" />
+    <Compile Include="VfpMapping.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\SyclDev.snk">
+      <Link>SyclDev.snk</Link>
+    </None>
+    <None Include="Resources\Blank.dbc" />
+    <None Include="Resources\Blank.dct" />
+    <None Include="Resources\Blank.dcx" />
+    <None Include="Resources\IndexSchemaAutoIncCandidate.prg" />
+    <None Include="Resources\PackTable.PRG" />
+    <None Include="Resources\TableFieldProps.prg" />
+    <None Include="Resources\TableProps.prg" />
+    <None Include="Resources\ViewFieldProps.prg" />
+    <None Include="Resources\ViewProps.prg" />
+    <None Include="Resources\ZapTable.PRG" />
+    <None Include="VfpMapping.codegen.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>VfpMapping.codegen.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="VfpMapping.xml">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!--<Import Project="$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.Targets" />-->
+  <PropertyGroup>
+    <PostBuildEvent>"%25ProgramFiles(x86)%25\Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.5.1 Tools\gacutil" -i "$(TargetDir)$(TargetFileName)"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
