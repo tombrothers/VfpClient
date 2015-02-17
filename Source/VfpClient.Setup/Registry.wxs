@@ -5,6 +5,7 @@
       <ComponentRef Id="CMP_Registry_VS2010"/>
       <ComponentRef Id="CMP_Registry_VS2012"/>
       <ComponentRef Id="CMP_Registry_VS2013"/>
+      <ComponentRef Id="CMP_Registry_VS2015"/>
     </ComponentGroup>
   </Fragment>
 </Wix>

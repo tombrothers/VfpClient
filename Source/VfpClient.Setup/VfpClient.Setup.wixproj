@@ -46,6 +46,7 @@
     <IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Registry_VS2015.wxs" />
     <Compile Include="MachineConfig_Net2.wxs" />
     <Compile Include="MachineConfig_Net4.wxs" />
     <Compile Include="MachineConfig.wxs" />

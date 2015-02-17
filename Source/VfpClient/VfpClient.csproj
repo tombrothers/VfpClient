@@ -28,7 +28,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_40|x86' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Build\VfpClient.Setup\Resources\net40\</OutputPath>
+    <OutputPath>..\VfpClient.Setup\Resources\net40\</OutputPath>
     <DefineConstants>TRACE;NET_40</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -41,7 +41,7 @@
     <AssemblyOriginatorKeyFile>..\..\..\TRBDev.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release_45|x86'">
-    <OutputPath>..\Build\VfpClient.Setup\Resources\net45\</OutputPath>
+    <OutputPath>..\VfpClient.Setup\Resources\net45\</OutputPath>
     <DefineConstants>TRACE;NET_45</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -50,7 +50,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release_35|x86'">
-    <OutputPath>..\Build\VfpClient.Setup\Resources\net35\</OutputPath>
+    <OutputPath>..\VfpClient.Setup\Resources\net35\</OutputPath>
     <DefineConstants>TRACE;NET_35</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
