@@ -1,14 +1,20 @@
-using System;
+﻿using System;
 using System.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VfpClient.Tests.Fixtures;
+using Xunit;
 
 namespace VfpClient.Tests {
-    [TestClass]
-    public class VfpCommandTests : TestBase {
-        [TestMethod]
+    public class VfpCommandTests : IClassFixture<NorthwindDataFixture> {
+        private readonly NorthwindDataFixture fixture;
+
+        public VfpCommandTests(NorthwindDataFixture fixture) {
+            this.fixture = fixture;
+        }
+
+        [Fact]
         public void NamedParameterTest() {
-            using (var connection = GetConnection()) {
-                using (var command = connection.CreateCommand()) {
+            using(var connection = this.fixture.CreateConnection()) {
+                using(var command = connection.CreateCommand()) {
 
                     command.CommandText = @"
 SELECT CAST('Supplier' as v(254)) Type, CompanyName Name 
@@ -32,15 +38,15 @@ Order by 2";
 
                     dataAdapter.Fill(dataTable);
 
-                    Assert.AreEqual(14, dataTable.Rows.Count);
+                    Assert.Equal(14, dataTable.Rows.Count);
                 }
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ToVfpCodeTest() {
-            using (var connection = GetConnection())
-            using (var command = connection.CreateCommand()) {
+            using(var connection = this.fixture.CreateConnection())
+            using(var command = connection.CreateCommand()) {
                 command.CommandText =
     @"select count(*)
     from customers
@@ -57,8 +63,8 @@ select count(*) ;
 
                 var actual = command.ToVfpCode();
 
-                Assert.AreEqual(expected, actual);
-                Assert.AreEqual(1, Convert.ToInt32(command.ExecuteScalar()));
+                Assert.Equal(expected, actual);
+                Assert.Equal(1, Convert.ToInt32(command.ExecuteScalar()));
             }
         }
     }

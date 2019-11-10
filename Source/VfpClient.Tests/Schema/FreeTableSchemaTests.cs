@@ -1,13 +1,20 @@
-using System.IO;
-using ICSharpCode.SharpZipLib.Zip;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VfpClient.Tests.Fixtures;
+using Xunit;
+using Xunit.Abstractions;
 
 namespace VfpClient.Tests.Schema {
-    [TestClass]
-    public class FreeTableSchemaTests : TestBase {
-        [TestMethod]
+    public class FreeTableSchemaTests : IClassFixture<FreeTablesDataFixture> {
+        private readonly FreeTablesDataFixture fixture;
+
+        public FreeTableSchemaTests(FreeTablesDataFixture fixture, ITestOutputHelper testOutput) {
+            testOutput.WriteLine($"Data Directory: {fixture.DataDirectory}");
+
+            this.fixture = fixture;
+        }
+
+        [Fact]
         public void FreeTableSchemaTests_GetDataTypesSchemaTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.DataTypes);
                 var expected = FreeTableSchemaExpected.GetDataTypesSchema();
 
@@ -16,9 +23,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void FreeTableSchemaTests_GetCandidateKeySchemaWithTableNameAndNoTablesWithMultipleCandidateKeysTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.CandidateKeys, new[] { "sample_c1", "true" });
                 var expected = FreeTableSchemaExpected.GetCandidateKeySchemaWithTableNameAndNoTablesWithMultipleCandidateKeys();
 
@@ -27,9 +34,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void FreeTableSchemaTests_GetCandidateKeySchemaWithTableNameTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.CandidateKeys, new[] { "sample_c1" });
                 var expected = FreeTableSchemaExpected.GetCandidateKeySchemaWithTableName();
 
@@ -38,9 +45,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void FreeTableSchemaTests_GetCandidateKeySchemaTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.CandidateKeys);
                 var expected = FreeTableSchemaExpected.GetCandidateKeySchema();
 
@@ -49,9 +56,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void FreeTableSchemaTests_GetForeignKeySchemaTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.ForeignKeys);
                 var expected = FreeTableSchemaExpected.GetForeignKeySchema();
 
@@ -60,9 +67,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void FreeTableSchemaTests_GetPrimaryKeySchemaTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.PrimaryKeys);
                 var expected = FreeTableSchemaExpected.GetPrimaryKeySchema();
 
@@ -71,9 +78,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void FreeTableSchemaTests_GetIndexSchemaTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.Indexes);
                 var expected = FreeTableSchemaExpected.GetIndexSchema();
 
@@ -82,9 +89,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void FreeTableSchemaTests_GetProcedureParameterSchemaTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.ProcedureParameters);
                 var expected = FreeTableSchemaExpected.GetProcedureParameterSchema();
 
@@ -93,9 +100,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void FreeTableSchemaTests_GetProcedureSchemaTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.Procedures);
                 var expected = FreeTableSchemaExpected.GetProcedureSchema();
 
@@ -104,9 +111,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void FreeTableSchemaTests_GetTableFieldSchemaTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.TableFields);
                 var expected = FreeTableSchemaExpected.GetTableFieldSchema();
 
@@ -115,9 +122,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void FreeTableSchemaTests_GetTableSchemaTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.Tables);
                 var expected = FreeTableSchemaExpected.GetTableSchema();
 
@@ -126,9 +133,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void FreeTableSchemaTests_GetViewFieldSchemaTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.ViewFields);
                 var expected = FreeTableSchemaExpected.GetViewFieldSchema();
 
@@ -137,19 +144,15 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void FreeTableSchemaTests_GetViewSchemaTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.Views);
                 var expected = FreeTableSchemaExpected.GetViewSchema();
 
                 //DataTableHelper.WriteDataTableCode("ViewSchema", actual);
                 DataTableHelper.AssertDataTablesAreEqual(expected, actual);
             }
-        }
-
-        protected override VfpConnection GetConnection(string connectionString = null, bool keepClosed = false) {
-            return base.GetConnection(connectionString ?? "Data Source=" + Path.Combine(TestContext.TestDeploymentDir, @"FreeTables\"), keepClosed);
         }
     }
 }

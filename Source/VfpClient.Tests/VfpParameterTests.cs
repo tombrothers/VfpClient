@@ -1,324 +1,190 @@
-using System;
+﻿using AutoFixture.Xunit2;
 using System.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VfpClient.Tests.Attributes;
+using VfpClient.Tests.TestCases;
+using Xunit;
+using static System.String;
 
 namespace VfpClient.Tests {
-    [TestClass]
-    public class VfpParameterTests : TestBase {
-        [TestMethod]
-        public void DbTypeTest() {
+    public class VfpParameterTests {
+        [Fact]
+        public void DbType_ShouldDefaultToString() {
             var parameter = new VfpParameter();
-            Assert.AreEqual(DbType.String, parameter.DbType);
 
-            parameter.DbType = DbType.AnsiString;
-            Assert.AreEqual(DbType.AnsiString, parameter.DbType);
-            Assert.AreEqual(VfpType.Varchar, parameter.VfpType);
-
-            parameter.DbType = DbType.AnsiStringFixedLength;
-            Assert.AreEqual(DbType.AnsiStringFixedLength, parameter.DbType);
-            Assert.AreEqual(VfpType.Character, parameter.VfpType);
-
-            parameter.DbType = DbType.Binary;
-            Assert.AreEqual(DbType.Binary, parameter.DbType);
-            Assert.AreEqual(VfpType.Varbinary, parameter.VfpType);
-
-            parameter.DbType = DbType.Boolean;
-            Assert.AreEqual(DbType.Boolean, parameter.DbType);
-            Assert.AreEqual(VfpType.Logical, parameter.VfpType);
-
-            parameter.DbType = DbType.Byte;
-            Assert.AreEqual(DbType.Byte, parameter.DbType);
-            Assert.AreEqual(VfpType.Integer, parameter.VfpType);
-
-            parameter.DbType = DbType.Currency;
-            Assert.AreEqual(DbType.Currency, parameter.DbType);
-            Assert.AreEqual(VfpType.Currency, parameter.VfpType);
-
-            parameter.DbType = DbType.Date;
-            Assert.AreEqual(DbType.Date, parameter.DbType);
-            Assert.AreEqual(VfpType.Date, parameter.VfpType);
-
-            parameter.DbType = DbType.DateTime;
-            Assert.AreEqual(DbType.DateTime, parameter.DbType);
-            Assert.AreEqual(VfpType.DateTime, parameter.VfpType);
-
-            parameter.DbType = DbType.Decimal;
-            Assert.AreEqual(DbType.Decimal, parameter.DbType);
-            Assert.AreEqual(VfpType.Numeric, parameter.VfpType);
-
-            parameter.DbType = DbType.Double;
-            Assert.AreEqual(DbType.Double, parameter.DbType);
-            Assert.AreEqual(VfpType.Double, parameter.VfpType);
-
-            parameter.DbType = DbType.Guid;
-            Assert.AreEqual(DbType.Guid, parameter.DbType);
-            Assert.AreEqual(VfpType.Varchar, parameter.VfpType);
-
-            parameter.DbType = DbType.Int16;
-            Assert.AreEqual(DbType.Int16, parameter.DbType);
-            Assert.AreEqual(VfpType.Integer, parameter.VfpType);
-
-            parameter.DbType = DbType.Int32;
-            Assert.AreEqual(DbType.Int32, parameter.DbType);
-            Assert.AreEqual(VfpType.Integer, parameter.VfpType);
-
-            parameter.DbType = DbType.Int64;
-            Assert.AreEqual(DbType.Int64, parameter.DbType);
-            Assert.AreEqual(VfpType.Numeric, parameter.VfpType);
-
-            parameter.DbType = DbType.Object;
-            Assert.AreEqual(DbType.Object, parameter.DbType);
-            Assert.AreEqual(VfpType.Variant, parameter.VfpType);
-
-            parameter.DbType = DbType.SByte;
-            Assert.AreEqual(DbType.SByte, parameter.DbType);
-            Assert.AreEqual(VfpType.Integer, parameter.VfpType);
-
-            parameter.DbType = DbType.Single;
-            Assert.AreEqual(DbType.Single, parameter.DbType);
-            Assert.AreEqual(VfpType.Float, parameter.VfpType);
-
-            parameter.DbType = DbType.String;
-            Assert.AreEqual(DbType.String, parameter.DbType);
-            Assert.AreEqual(VfpType.Varchar, parameter.VfpType);
-
-            parameter.DbType = DbType.StringFixedLength;
-            Assert.AreEqual(DbType.StringFixedLength, parameter.DbType);
-            Assert.AreEqual(VfpType.Character, parameter.VfpType);
-
-            parameter.DbType = DbType.Time;
-            Assert.AreEqual(DbType.Time, parameter.DbType);
-            Assert.AreEqual(VfpType.Date, parameter.VfpType);
-
-            parameter.DbType = DbType.UInt16;
-            Assert.AreEqual(DbType.UInt16, parameter.DbType);
-            Assert.AreEqual(VfpType.Integer, parameter.VfpType);
-
-            parameter.DbType = DbType.UInt32;
-            Assert.AreEqual(DbType.UInt32, parameter.DbType);
-            Assert.AreEqual(VfpType.Numeric, parameter.VfpType);
-
-            parameter.DbType = DbType.UInt64;
-            Assert.AreEqual(DbType.UInt64, parameter.DbType);
-            Assert.AreEqual(VfpType.Numeric, parameter.VfpType);
-
-            parameter.DbType = DbType.VarNumeric;
-            Assert.AreEqual(DbType.VarNumeric, parameter.DbType);
-            Assert.AreEqual(VfpType.Numeric, parameter.VfpType);
-
-            parameter.DbType = DbType.Xml;
-            Assert.AreEqual(DbType.String, parameter.DbType);
-            Assert.AreEqual(VfpType.Varchar, parameter.VfpType);
+            Assert.Equal(System.Data.DbType.String, parameter.DbType);
         }
 
-        public void VfpTypeTest() {
-            var parameter = new VfpParameter();
-            Assert.AreEqual(VfpType.Varchar, parameter.VfpType);
+        [Theory]
+        [DbTypeToVfpTypeData]
+        public void DbTypeShouldSetVfpType(VfpTypeAndDbTypeTestCase testCase) {
+            var parameter = new VfpParameter {
+                DbType = testCase.DbType
+            };
 
-            parameter.VfpType = VfpType.AutoIncInteger;
-            Assert.AreEqual(VfpType.AutoIncInteger, parameter.VfpType);
-            Assert.AreEqual(DbType.Int32, parameter.DbType);
-
-            parameter.VfpType = VfpType.BinaryMemo;
-            Assert.AreEqual(VfpType.BinaryMemo, parameter.VfpType);
-            Assert.AreEqual(DbType.String, parameter.DbType);
-
-            parameter.VfpType = VfpType.BinaryVarchar;
-            Assert.AreEqual(VfpType.BinaryVarchar, parameter.VfpType);
-            Assert.AreEqual(DbType.String, parameter.DbType);
-
-            parameter.VfpType = VfpType.Blob;
-            Assert.AreEqual(VfpType.Blob, parameter.VfpType);
-            Assert.AreEqual(DbType.Binary, parameter.DbType);
-
-            parameter.VfpType = VfpType.Character;
-            Assert.AreEqual(VfpType.Character, parameter.VfpType);
-            Assert.AreEqual(DbType.StringFixedLength, parameter.DbType);
-
-            parameter.VfpType = VfpType.Currency;
-            Assert.AreEqual(VfpType.Currency, parameter.VfpType);
-            Assert.AreEqual(DbType.Currency, parameter.DbType);
-
-            parameter.VfpType = VfpType.Date;
-            Assert.AreEqual(VfpType.Date, parameter.VfpType);
-            Assert.AreEqual(DbType.Date, parameter.DbType);
-
-            parameter.VfpType = VfpType.DateTime;
-            Assert.AreEqual(VfpType.DateTime, parameter.VfpType);
-            Assert.AreEqual(DbType.DateTime, parameter.DbType);
-
-            parameter.VfpType = VfpType.Double;
-            Assert.AreEqual(VfpType.Double, parameter.VfpType);
-            Assert.AreEqual(DbType.Double, parameter.DbType);
-
-            parameter.VfpType = VfpType.Float;
-            Assert.AreEqual(VfpType.Float, parameter.VfpType);
-            Assert.AreEqual(DbType.Decimal, parameter.DbType);
-
-            parameter.VfpType = VfpType.General;
-            Assert.AreEqual(VfpType.General, parameter.VfpType);
-            Assert.AreEqual(DbType.Object, parameter.DbType);
-
-            parameter.VfpType = VfpType.Integer;
-            Assert.AreEqual(VfpType.Integer, parameter.VfpType);
-            Assert.AreEqual(DbType.Int32, parameter.DbType);
-
-            parameter.VfpType = VfpType.Logical;
-            Assert.AreEqual(VfpType.Logical, parameter.VfpType);
-            Assert.AreEqual(DbType.Boolean, parameter.DbType);
-
-            parameter.VfpType = VfpType.Memo;
-            Assert.AreEqual(VfpType.Memo, parameter.VfpType);
-            Assert.AreEqual(DbType.String, parameter.DbType);
-
-            parameter.VfpType = VfpType.Numeric;
-            Assert.AreEqual(VfpType.Numeric, parameter.VfpType);
-            Assert.AreEqual(DbType.Decimal, parameter.DbType);
-
-            parameter.VfpType = VfpType.Varbinary;
-            Assert.AreEqual(VfpType.Varbinary, parameter.VfpType);
-            Assert.AreEqual(DbType.Binary, parameter.DbType);
-
-            parameter.VfpType = VfpType.Varchar;
-            Assert.AreEqual(VfpType.Varchar, parameter.VfpType);
-            Assert.AreEqual(DbType.String, parameter.DbType);
-
-            parameter.VfpType = VfpType.Variant;
-            Assert.AreEqual(VfpType.Variant, parameter.VfpType);
-            Assert.AreEqual(DbType.Object, parameter.DbType);
+            Assert.Equal(testCase.VfpType, parameter.VfpType);
         }
 
-        [TestMethod]
-        public void DirectionTest() {
+        [Fact]
+        public void VfpType_ShouldDefaultToVarchar() {
             var parameter = new VfpParameter();
-            Assert.AreEqual(ParameterDirection.Input, parameter.Direction);
 
-            parameter.Direction = ParameterDirection.InputOutput;
-            Assert.AreEqual(ParameterDirection.InputOutput, parameter.Direction);
-
-            parameter.Direction = ParameterDirection.Output;
-            Assert.AreEqual(ParameterDirection.Output, parameter.Direction);
-
-            parameter.Direction = ParameterDirection.ReturnValue;
-            Assert.AreEqual(ParameterDirection.ReturnValue, parameter.Direction);
-
-            parameter.Direction = ParameterDirection.Input;
-            Assert.AreEqual(ParameterDirection.Input, parameter.Direction);
+            Assert.Equal(VfpClient.VfpType.Varchar, parameter.VfpType);
         }
 
-        [TestMethod]
-        public void IsNullableTest() {
-            var parameter = new VfpParameter();
-            Assert.IsFalse(parameter.IsNullable);
+        [Theory]
+        [VfpTypeToDbTypeData]
+        public void VfpType_ShouldSetDbType(VfpTypeAndDbTypeTestCase testCase) {
+            var parameter = new VfpParameter {
+                VfpType = testCase.VfpType
+            };
 
-            parameter.IsNullable = true;
-            Assert.IsTrue(parameter.IsNullable);
-
-            parameter.IsNullable = false;
-            Assert.IsFalse(parameter.IsNullable);
+            Assert.Equal(testCase.DbType, parameter.DbType);
         }
 
-        [TestMethod]
-        public void ParameterNameTest() {
+        [Fact]
+        public void Direction_ShouldDefaultToInput() {
             var parameter = new VfpParameter();
-            Assert.AreEqual(string.Empty, parameter.ParameterName);
 
-            parameter.ParameterName = "Input";
-            Assert.AreEqual("Input", parameter.ParameterName);
-            Assert.AreNotEqual("INPUT", parameter.ParameterName);
-
-            parameter = new VfpParameter("Output", VfpType.Double);
-            Assert.AreEqual("Output", parameter.ParameterName);
-            Assert.AreNotEqual("output", parameter.ParameterName);
+            Assert.Equal(ParameterDirection.Input, parameter.Direction);
         }
 
-        [TestMethod]
-        public void SizeTest() {
-            var parameter = new VfpParameter();
-            Assert.AreEqual(0, parameter.Size);
+        [Theory]
+        [EnumData(typeof(ParameterDirection))]
+        public void Direction_ShouldSetDirection(ParameterDirection direction) {
+            var parameter = new VfpParameter {
+                Direction = direction
+            };
 
-            parameter.Size = 8;
-            Assert.AreEqual(8, parameter.Size);
+            Assert.Equal(direction, parameter.Direction);
         }
 
-        [TestMethod]
-        public void SourceColumnTest() {
+        [Fact]
+        public void IsNullable_ShouldDefaultToFalse() {
             var parameter = new VfpParameter();
-            Assert.AreEqual(string.Empty, parameter.SourceColumn);
 
-            parameter.SourceColumn = "Name";
-            Assert.AreEqual("Name", parameter.SourceColumn);
-            Assert.AreNotEqual("NAME", parameter.SourceColumn);
+            Assert.False(parameter.IsNullable);
         }
 
-        [TestMethod]
-        public void SourceColumnNullMappingTest() {
-            var parameter = new VfpParameter();
-            Assert.IsFalse(parameter.SourceColumnNullMapping);
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void IsNullable_ShouldSetIsNullable(bool isNullable) {
+            var parameter = new VfpParameter {
+                IsNullable = isNullable
+            };
 
-            parameter.SourceColumnNullMapping = true;
-            Assert.IsTrue(parameter.SourceColumnNullMapping);
-
-            parameter.SourceColumnNullMapping = false;
-            Assert.IsFalse(parameter.SourceColumnNullMapping);
+            Assert.Equal(isNullable, parameter.IsNullable);
         }
 
-        [TestMethod]
-        public void SourceVersionTest() {
+        [Fact]
+        public void ParameterName_ShouldDefaultToEmptyString() {
             var parameter = new VfpParameter();
-            Assert.AreEqual(DataRowVersion.Current, parameter.SourceVersion);
 
-            parameter.SourceVersion = DataRowVersion.Default;
-            Assert.AreEqual(DataRowVersion.Default, parameter.SourceVersion);
+            Assert.Equal(Empty, parameter.ParameterName);
 
-            parameter.SourceVersion = DataRowVersion.Original;
-            Assert.AreEqual(DataRowVersion.Original, parameter.SourceVersion);
-
-            parameter.SourceVersion = DataRowVersion.Proposed;
-            Assert.AreEqual(DataRowVersion.Proposed, parameter.SourceVersion);
-
-            parameter.SourceVersion = DataRowVersion.Current;
-            Assert.AreEqual(DataRowVersion.Current, parameter.SourceVersion);
         }
 
-        [TestMethod]
-        public void ValueTest() {
+        [Theory]
+        [AutoData]
+        public void ParameterName_ShouldSetParameterName(string parameterName) {
+            var parameter = new VfpParameter {
+                ParameterName = parameterName
+            };
+
+            Assert.Equal(parameterName, parameter.ParameterName);
+        }
+
+        [Fact]
+        public void Size_ShouldDefaultToZero() {
             var parameter = new VfpParameter();
-            Assert.AreEqual(null, parameter.Value);
 
-            parameter.Value = "100";
-            Assert.AreEqual("100", parameter.Value);
-            Assert.AreNotEqual(100, parameter.Value);
-            Assert.AreNotEqual(Int32.Parse("100"), parameter.Value);
-            Assert.AreEqual(VfpType.Varchar, parameter.VfpType);
-            Assert.AreEqual(DbType.String, parameter.DbType);
+            Assert.Equal(0, parameter.Size);
 
-            parameter.Value = 1000;
-            Assert.AreEqual(1000, parameter.Value);
-            Assert.AreEqual(Int32.Parse("1000"), parameter.Value);
-            Assert.AreNotEqual("1000", parameter.Value);
-            Assert.AreEqual(VfpType.Integer, parameter.VfpType);
-            Assert.AreEqual(DbType.Int32, parameter.DbType);
+        }
 
-            parameter.Value = false;
-            Assert.AreEqual(false, parameter.Value);
-            Assert.AreNotEqual("false", parameter.Value);
-            Assert.AreNotEqual(0, parameter.Value);
-            Assert.AreEqual(VfpType.Logical, parameter.VfpType);
-            Assert.AreEqual(DbType.Boolean, parameter.DbType);
+        [Theory]
+        [AutoData]
+        public void Size_ShouldSetSize(int size) {
+            var parameter = new VfpParameter {
+                Size = size
+            };
 
-            parameter.Value = 2462.2325;
-            Assert.AreEqual(2462.2325, parameter.Value);
-            Assert.AreNotEqual(2462.23, parameter.Value);
-            Assert.AreNotEqual(2462, parameter.Value);
-            Assert.AreEqual(VfpType.Double, parameter.VfpType);
-            Assert.AreEqual(DbType.Double, parameter.DbType);
+            Assert.Equal(size, parameter.Size);
+        }
 
-            parameter.Value = 32.41f;
-            Assert.AreEqual(32.41f, parameter.Value);
-            Assert.AreNotEqual(32.41, parameter.Value);
-            Assert.AreEqual(VfpType.Float, parameter.VfpType);
-            Assert.AreEqual(DbType.Single, parameter.DbType);
+        [Fact]
+        public void SourceColumn_ShouldDefaultToEmptyString() {
+            var parameter = new VfpParameter();
+
+            Assert.Equal(Empty, parameter.SourceColumn);
+
+        }
+
+        [Theory]
+        [AutoData]
+        public void SourceColumn_ShouldSetSourceColumn(string sourceColumn) {
+            var parameter = new VfpParameter {
+                SourceColumn = sourceColumn
+            };
+
+            Assert.Equal(sourceColumn, parameter.SourceColumn);
+        }
+
+        [Fact]
+        public void SourceColumnNullMapping_ShouldDefaultToFalse() {
+            var parameter = new VfpParameter();
+
+            Assert.False(parameter.SourceColumnNullMapping);
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void SourceColumnNullMapping_ShouldSetSourceColumnNullMapping(bool sourceColumnNullMapping) {
+            var parameter = new VfpParameter {
+                SourceColumnNullMapping = sourceColumnNullMapping
+            };
+
+            Assert.Equal(sourceColumnNullMapping, parameter.SourceColumnNullMapping);
+        }
+
+        [Fact]
+        public void SourceVersion_ShouldDefaultToCurrent() {
+            var parameter = new VfpParameter();
+
+            Assert.Equal(DataRowVersion.Current, parameter.SourceVersion);
+        }
+
+        [Theory]
+        [EnumData(typeof(DataRowVersion))]
+        public void SourceVersion_ShouldSetSourceVersion(DataRowVersion dataRowVersion) {
+            var parameter = new VfpParameter {
+                SourceVersion = dataRowVersion
+            };
+
+            Assert.Equal(dataRowVersion, parameter.SourceVersion);
+        }
+
+        [Fact]
+        public void Value_ShouldDefaultToNull() {
+            var parameter = new VfpParameter();
+
+            Assert.Null(parameter.Value);
+        }
+
+        [Theory]
+        [InlineData("100", VfpClient.VfpType.Varchar)]
+        [InlineData(1000, VfpClient.VfpType.Integer)]
+        [InlineData(false, VfpClient.VfpType.Logical)]
+        [InlineData(2462.2325, VfpClient.VfpType.Double)]
+        [InlineData(32.41f, VfpClient.VfpType.Float)]
+        public void Value_ShouldSetValueAndVfpType(object value, VfpClient.VfpType vfpType) {
+            var parameter = new VfpParameter {
+                Value = value
+            };
+
+            Assert.Equal(value, parameter.Value);
+            Assert.Equal(vfpType, parameter.VfpType);
         }
     }
 }

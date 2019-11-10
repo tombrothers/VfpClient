@@ -1,32 +1,34 @@
-using System;
+﻿using System;
 using System.Data;
-using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VfpClient.Tests.Fixtures;
 using VfpClient.Utils.DbcCreator;
+using Xunit;
 
 namespace VfpClient.Tests.Utils.DbcCreator {
-    [TestClass]
-    public class DataTableDbcCreatorTests : TestBase {
-        [TestMethod]
+    public class DataTableDbcCreatorTests : IClassFixture<DataTableDbcCreatorDataFixture> {
+        private readonly DataTableDbcCreatorDataFixture fixture;
+
+        public DataTableDbcCreatorTests(DataTableDbcCreatorDataFixture fixture) {
+            this.fixture = fixture;
+        }
+
+        [Fact]
         public void TestAllTypes() {
             var actual = CreateDataTable();
             //DataTableHelper.WriteDataTableCode("Expected", actual);
 
-            var dbcPath = Path.Combine(TestContext.TestDeploymentDir, @"Data\MyTest.dbc");
-            var creator = new DataTableDbcCreator(dbcPath);
+            var creator = new DataTableDbcCreator(this.fixture.DbcPath);
 
             creator.Add(actual);
 
             var expected = new DataTable(actual.TableName);
 
-            using (var connection = GetConnection(dbcPath)) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var sql = string.Format("select * from '{0}'", actual.TableName);
                 var adapter = new VfpDataAdapter(sql, connection);
 
                 adapter.Fill(expected);
             }
-
-            Console.WriteLine(dbcPath);
         }
 
         private static DataTable CreateDataTable() {

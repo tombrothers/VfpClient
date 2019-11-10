@@ -1,36 +1,35 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
 
 namespace VfpClient.Tests {
-    [TestClass]
     public class VfpClientFactoryTests {
-        [TestMethod]
+        [Fact]
         public void CreateCommandTest() {
-            Assert.AreEqual(typeof(VfpCommand), VfpClientFactory.Instance.CreateCommand().GetType());
+            Assert.Equal(typeof(VfpCommand), VfpClientFactory.Instance.CreateCommand().GetType());
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateCommandBuilderTest() {
-            Assert.AreEqual(typeof(VfpCommandBuilder), VfpClientFactory.Instance.CreateCommandBuilder().GetType());
+            Assert.Equal(typeof(VfpCommandBuilder), VfpClientFactory.Instance.CreateCommandBuilder().GetType());
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateConnectionTest() {
-            Assert.AreEqual(typeof(VfpConnection), VfpClientFactory.Instance.CreateConnection().GetType());
+            Assert.Equal(typeof(VfpConnection), VfpClientFactory.Instance.CreateConnection().GetType());
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateConnectionStringBuilderTest() {
-            Assert.AreEqual(typeof(VfpConnectionStringBuilder), VfpClientFactory.Instance.CreateConnectionStringBuilder().GetType());
+            Assert.Equal(typeof(VfpConnectionStringBuilder), VfpClientFactory.Instance.CreateConnectionStringBuilder().GetType());
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateDataAdapterTest() {
-            Assert.AreEqual(typeof(VfpDataAdapter), VfpClientFactory.Instance.CreateDataAdapter().GetType());
+            Assert.Equal(typeof(VfpDataAdapter), VfpClientFactory.Instance.CreateDataAdapter().GetType());
         }
 
-        [TestMethod]
+        [Fact]
         public void CreateParameterTest() {
-            Assert.AreEqual(typeof(VfpParameter), VfpClientFactory.Instance.CreateParameter().GetType());
+            Assert.Equal(typeof(VfpParameter), VfpClientFactory.Instance.CreateParameter().GetType());
         }
     }
 }

@@ -10,7 +10,7 @@ namespace VfpClient {
         public static readonly int GuidStringWidth = 38;
         public static readonly int MaximumIndexNameLength = 10;
 
-        public static VfpType GetVfpStringType(int stringLength, bool isFixedLength = false) { 
+        public static VfpType GetVfpStringType(int stringLength, bool isFixedLength = false) {
             if(stringLength > MaximumCharacterFieldSize) {
                 return VfpType.Memo;
             }
@@ -19,7 +19,7 @@ namespace VfpClient {
         }
 
         public static string GetDefaultValue(this VfpType vfpType) {
-            switch (vfpType) {
+            switch(vfpType) {
                 case VfpType.Logical:
                     return ".f.";
                 case VfpType.BinaryCharacter:
@@ -45,7 +45,7 @@ namespace VfpClient {
         }
 
         public static string ToFieldType(this VfpType vfpType) {
-            if (!_vfpTypeToFieldType.ContainsKey(vfpType)) {
+            if(!_vfpTypeToFieldType.ContainsKey(vfpType)) {
                 throw new VfpException("Unable to convert VfpType " + vfpType + " to a Field Type");
             }
 
@@ -53,7 +53,7 @@ namespace VfpClient {
         }
 
         public static Type ToType(this VfpType vfpType) {
-            if (!_vfpTypeToClrType.ContainsKey(vfpType)) {
+            if(!_vfpTypeToClrType.ContainsKey(vfpType)) {
                 throw new VfpException("Unable to convert VfpType " + vfpType + " to a Type");
             }
 
@@ -61,7 +61,7 @@ namespace VfpClient {
         }
 
         public static string ToVfpTypeName(this VfpType vfpType) {
-            if (!_vfpTypeToVfpTypeName.ContainsKey(vfpType)) {
+            if(!_vfpTypeToVfpTypeName.ContainsKey(vfpType)) {
                 throw new VfpException("Unable to convert VfpType " + vfpType + " to a VfpTypeName");
             }
 
@@ -69,23 +69,23 @@ namespace VfpClient {
         }
 
         public static DbType ToDbType(this VfpType vfpType) {
-            if (!_vfpTypeToDbType.ContainsKey(vfpType)) {
+            if(!VfpTypeToDbType.ContainsKey(vfpType)) {
                 throw new VfpException("Unable to convert VfpType " + vfpType + " to a DbType");
             }
 
-            return _vfpTypeToDbType[vfpType];
+            return VfpTypeToDbType[vfpType];
         }
 
         public static VfpType ToVfpType(this DbType dbType) {
-            if (!_dbTypeToVfpType.ContainsKey(dbType)) {
+            if(!DbTypeToVfpType.ContainsKey(dbType)) {
                 throw new VfpException("Unable to convert DbType " + dbType + " to a VfpType");
             }
 
-            return _dbTypeToVfpType[dbType];
+            return DbTypeToVfpType[dbType];
         }
 
         public static VfpType ToVfpType(this OleDbType oleDbType) {
-            if (!_oleDbTypeToVfpType.ContainsKey(oleDbType)) {
+            if(!_oleDbTypeToVfpType.ContainsKey(oleDbType)) {
                 throw new VfpException("Unable to convert OleDbType " + oleDbType + " to a VfpType");
             }
 
@@ -93,11 +93,11 @@ namespace VfpClient {
         }
 
         public static string ToVfpTypeName(this string type) {
-            if (_vfpAbbrevToVfpTypeName.ContainsKey(type)) {
+            if(_vfpAbbrevToVfpTypeName.ContainsKey(type)) {
                 return _vfpAbbrevToVfpTypeName[type];
             }
 
-            if (_dbTypeNameToVfpTypeName.ContainsKey(type)) {
+            if(_dbTypeNameToVfpTypeName.ContainsKey(type)) {
                 return _dbTypeNameToVfpTypeName[type];
             }
 
@@ -105,11 +105,11 @@ namespace VfpClient {
         }
 
         public static VfpType ToVfpType(this string type) {
-            if (_vfpTypeNameToVfpType.ContainsKey(type)) {
+            if(_vfpTypeNameToVfpType.ContainsKey(type)) {
                 return _vfpTypeNameToVfpType[type];
             }
 
-            if (_vfpAbbrevToVfpType.ContainsKey(type)) {
+            if(_vfpAbbrevToVfpType.ContainsKey(type)) {
                 return _vfpAbbrevToVfpType[type];
             }
 

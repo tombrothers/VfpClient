@@ -1,11 +1,20 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VfpClient.Tests.Fixtures;
+using Xunit;
+using Xunit.Abstractions;
 
 namespace VfpClient.Tests.Schema {
-    [TestClass]
-    public class ProcedureColumnSchemaProviderTests : TestBase {
-        [TestMethod]
+    public class ProcedureColumnSchemaProviderTests : IClassFixture<NorthwindDataFixture> {
+        private readonly NorthwindDataFixture fixture;
+
+        public ProcedureColumnSchemaProviderTests(NorthwindDataFixture fixture, ITestOutputHelper testOutput) {
+            testOutput.WriteLine($"Data Directory: {fixture.DataDirectory}");
+
+            this.fixture = fixture;
+        }
+
+        [Fact]
         public void ProcedureColumnSchemaProviderTests_GetSchemaWithProcedureNameReferentialIntegrityTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.ProcedureColumns, new[] { "ridelete", "true" });
                 var expected = ProcedureColumnSchemaProviderExpected.GetSchemaWithProcedureNameReferentialIntegrity();
 
@@ -14,9 +23,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ProcedureColumnSchemaProviderTests_GetSchemaWithReferentialIntegrityTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.ProcedureColumns, new[] { null, "true" });
                 var expected = ProcedureColumnSchemaProviderExpected.GetSchemaWithReferentialIntegrity();
 
@@ -25,9 +34,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ProcedureColumnSchemaProviderTests_GetSchemaWithProcedureNameTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.ProcedureColumns, new[] { "custorderhist" });
                 var expected = ProcedureColumnSchemaProviderExpected.GetSchemaWithProcedureName();
 
@@ -36,9 +45,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ProcedureColumnSchemaProviderTests_GetSchemaTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.ProcedureColumns);
                 var expected = ProcedureColumnSchemaProviderExpected.GetSchema();
 

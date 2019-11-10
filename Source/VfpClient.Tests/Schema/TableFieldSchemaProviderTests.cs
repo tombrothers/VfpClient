@@ -1,11 +1,20 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VfpClient.Tests.Fixtures;
+using Xunit;
+using Xunit.Abstractions;
 
 namespace VfpClient.Tests.Schema {
-    [TestClass]
-    public class TableFieldSchemaProviderTests : TestBase {
-        [TestMethod]
+    public class TableFieldSchemaProviderTests : IClassFixture<NorthwindDataFixture> {
+        private readonly NorthwindDataFixture fixture;
+
+        public TableFieldSchemaProviderTests(NorthwindDataFixture fixture, ITestOutputHelper testOutput) {
+            testOutput.WriteLine($"Data Directory: {fixture.DataDirectory}");
+
+            this.fixture = fixture;
+        }
+
+        [Fact]
         public void TableFieldSchemaProviderTests_GetSchemaWithTableNameAndFieldNameTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.TableFields, new string[] { "categories", "categoryid" });
                 var expected = TableFieldSchemaProviderExpected.GetSchemaWithTableNameAndFieldName();
 
@@ -14,9 +23,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void TableFieldSchemaProviderTests_GetSchemaWithFieldNameTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.TableFields, new string[] { null, "categoryid" });
                 var expected = TableFieldSchemaProviderExpected.GetSchemaWithFieldName();
 
@@ -25,9 +34,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void TableFieldSchemaProviderTests_GetSchemaWithTableNameTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.TableFields, new[] { "categories" });
                 var expected = TableFieldSchemaProviderExpected.GetSchemaWithTableName();
 
@@ -36,9 +45,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void TableFieldSchemaProviderTests_GetSchemaTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.TableFields);
                 var expected = TableFieldSchemaProviderExpected.GetSchema();
 

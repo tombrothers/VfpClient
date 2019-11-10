@@ -1,11 +1,20 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VfpClient.Tests.Fixtures;
+using Xunit;
+using Xunit.Abstractions;
 
 namespace VfpClient.Tests.Schema {
-    [TestClass]
-    public class ViewSchemaProviderTests : TestBase {
-        [TestMethod]
+    public class ViewSchemaProviderTests : IClassFixture<NorthwindDataFixture> {
+        private readonly NorthwindDataFixture fixture;
+
+        public ViewSchemaProviderTests(NorthwindDataFixture fixture, ITestOutputHelper testOutput) {
+            testOutput.WriteLine($"Data Directory: {fixture.DataDirectory}");
+
+            this.fixture = fixture;
+        }
+
+        [Fact]
         public void ViewSchemaProviderTests_GetSchemaWithTableNameTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.Views, new[] { "alphabetical_list_of_products" });
                 var expected = ViewSchemaProviderExpected.GetSchemaWithTableName();
 
@@ -14,9 +23,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ViewSchemaProviderTests_GetSchemaTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.Views);
                 var expected = ViewSchemaProviderExpected.GetSchema();
 

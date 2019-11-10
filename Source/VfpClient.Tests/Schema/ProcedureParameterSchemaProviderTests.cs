@@ -1,11 +1,20 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VfpClient.Tests.Fixtures;
+using Xunit;
+using Xunit.Abstractions;
 
 namespace VfpClient.Tests.Schema {
-    [TestClass]
-    public class ProcedureParameterSchemaProviderTests : TestBase {
-        [TestMethod]
+    public class ProcedureParameterSchemaProviderTests : IClassFixture<NorthwindDataFixture> {
+        private readonly NorthwindDataFixture fixture;
+
+        public ProcedureParameterSchemaProviderTests(NorthwindDataFixture fixture, ITestOutputHelper testOutput) {
+            testOutput.WriteLine($"Data Directory: {fixture.DataDirectory}");
+
+            this.fixture = fixture;
+        }
+
+        [Fact]
         public void ProcedureParameterSchemaProviderTests_GetSchemaWithProcedureNameReferentialIntegrityTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.ProcedureParameters, new[] { "riupdate", "true" });
                 var expected = ProcedureParameterSchemaProviderExpected.GetSchemaWithProcedureNameReferentialIntegrity();
 
@@ -14,9 +23,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ProcedureParameterSchemaProviderTests_GetSchemaWithReferentialIntegrityTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.ProcedureParameters, new[] { null, "true" });
                 var expected = ProcedureParameterSchemaProviderExpected.GetSchemaWithReferentialIntegrity();
 
@@ -25,9 +34,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ProcedureParameterSchemaProviderTests_GetSchemaWithProcedureNameTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.ProcedureParameters, new[] { "custorderhist" });
                 var expected = ProcedureParameterSchemaProviderExpected.GetSchemaWithProcedureName();
 
@@ -36,9 +45,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ProcedureParameterSchemaProviderTests_GetSchemaTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.ProcedureParameters);
                 var expected = ProcedureParameterSchemaProviderExpected.GetSchema();
 

@@ -1,19 +1,27 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VfpClient.Tests.Fixtures;
+using Xunit;
+using Xunit.Abstractions;
 
 namespace VfpClient.Tests.Schema {
-    [TestClass]
-    public class SchemaManagerTests : TestBase {
-        [TestMethod]
-        [ExpectedException(typeof(VfpException))]
+    public class SchemaManagerTests : IClassFixture<NorthwindDataFixture> {
+        private readonly NorthwindDataFixture fixture;
+
+        public SchemaManagerTests(NorthwindDataFixture fixture, ITestOutputHelper testOutput) {
+            testOutput.WriteLine($"Data Directory: {fixture.DataDirectory}");
+
+            this.fixture = fixture;
+        }
+
+        [Fact]
         public void SchemaManagerTests_GetColumnsSchemaTest() {
-            using (var connection = GetConnection()) {
-                connection.GetSchema("Columns");
+            using(var connection = this.fixture.CreateConnection()) {
+                Assert.Throws<VfpException>(() => connection.GetSchema("Columns"));
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void SchemaManagerTests_GetDataSourceInformationSchemaTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.DataSourceInformation);
                 var expected = SchemaManagerExpected.GetDataSourceInformationSchema();
 
@@ -21,10 +29,10 @@ namespace VfpClient.Tests.Schema {
                 DataTableHelper.AssertDataTablesAreEqual(expected, actual);
             }
         }
-        
-        [TestMethod]
+
+        [Fact]
         public void SchemaManagerTests_GetReservedWordsSchemaTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.ReservedWords);
                 var expected = SchemaManagerExpected.GetReservedWordsSchema();
 
@@ -33,28 +41,25 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(VfpException))]
+        [Fact]
         public void SchemaManagerTests_GetSchemaWithEmptyCollectionNameTest() {
-            using (var connection = GetConnection()) {
-                connection.GetSchema(string.Empty);
+            using(var connection = this.fixture.CreateConnection()) {
+                Assert.Throws<VfpException>(() => connection.GetSchema(string.Empty));
             }
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(VfpException))]
+        [Fact]
         public void SchemaManagerTests_GetSchemaWithNullCollectionNameTest() {
-            using (var connection = GetConnection()) {
-                connection.GetSchema(null);
+            using(var connection = this.fixture.CreateConnection()) {
+                Assert.Throws<VfpException>(() => connection.GetSchema(null));
             }
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(VfpException))]
+        [Fact]
         public void SchemaManagerTests_GetSchemaWithClosedConnectionTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 connection.Close();
-                connection.GetSchema(VfpConnection.SchemaNames.CandidateKeys);
+                Assert.Throws<VfpException>(() => connection.GetSchema(VfpConnection.SchemaNames.CandidateKeys));
             }
         }
     }

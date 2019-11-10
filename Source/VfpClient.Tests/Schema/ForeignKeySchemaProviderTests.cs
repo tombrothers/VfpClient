@@ -1,11 +1,20 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VfpClient.Tests.Fixtures;
+using Xunit;
+using Xunit.Abstractions;
 
 namespace VfpClient.Tests.Schema {
-    [TestClass]
-    public class ForeignKeySchemaProviderTests : TestBase {
-        [TestMethod]
+    public class ForeignKeySchemaProviderTests : IClassFixture<NorthwindDataFixture> {
+        private readonly NorthwindDataFixture fixture;
+
+        public ForeignKeySchemaProviderTests(NorthwindDataFixture fixture, ITestOutputHelper testOutput) {
+            testOutput.WriteLine($"Data Directory: {fixture.DataDirectory}");
+
+            this.fixture = fixture;
+        }
+
+        [Fact]
         public void ForeignKeySchemaProviderTests_GetSchemaWithTableNameNoForeignKeysTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.ForeignKeys, new[] { "customers" });
                 var expected = ForeignKeySchemaProviderExpected.GetSchemaWithTableNameNoForeignKeys();
 
@@ -14,9 +23,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ForeignKeySchemaProviderTests_GetSchemaWithTableNameTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.ForeignKeys, new[] { "orders" });
                 var expected = ForeignKeySchemaProviderExpected.GetSchemaWithTableName();
 
@@ -25,9 +34,9 @@ namespace VfpClient.Tests.Schema {
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void ForeignKeySchemaProviderTests_GetSchemaTest() {
-            using (var connection = GetConnection()) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var actual = connection.GetSchema(VfpConnection.SchemaNames.ForeignKeys);
                 var expected = ForeignKeySchemaProviderExpected.GetSchema();
 

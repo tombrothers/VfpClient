@@ -1,16 +1,22 @@
-using System.Data;
+﻿using System.Data;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using VfpClient.Tests.Fixtures;
+using Xunit;
 
 namespace VfpClient.Tests {
-    [TestClass]
-    public class VfpDataAdapterTests : TestBase {
-        [TestMethod]
+    public class VfpDataAdapterTests : IClassFixture<NorthwindDataFixture> {
+        private readonly NorthwindDataFixture fixture;
+
+        public VfpDataAdapterTests(NorthwindDataFixture fixture) {
+            this.fixture = fixture;
+        }
+
+        [Fact]
         public void VfpDataAdapterTests_UpdateTest() {
-            using (var connection = GetConnection(TestContext.TestDeploymentDir)) {
+            using(var connection = this.fixture.CreateConnection()) {
                 var transaction = connection.BeginTransaction();
 
-                using (var command = connection.CreateCommand()) {
+                using(var command = connection.CreateCommand()) {
                     command.Transaction = transaction;
                     command.CommandText = "select * from customers";
 
@@ -30,7 +36,7 @@ namespace VfpClient.Tests {
                     var dataTable2 = new DataTable();
                     dataAdapter.Fill(dataTable2);
 
-                    Assert.AreEqual("y", dataTable.Rows[0][0]);
+                    Assert.Equal("y", dataTable.Rows[0][0]);
                 }
 
                 transaction.Rollback();

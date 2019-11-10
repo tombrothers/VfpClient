@@ -1,111 +1,116 @@
-using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using VfpClient.Tests.Attributes;
+using VfpClient.Tests.TestCases;
+using Xunit;
+using static System.String;
 
 namespace VfpClient.Tests {
-    [TestClass]
     public class VfpConnectionStringBuilderTests {
-        [TestMethod]
-        public void VfpConnectionStringBuilderPropertiesTest() {
-            var vfpConnectionStringBuilder = new VfpConnectionStringBuilder("northwind.dbc") { Ansi = true, Deleted = false, CollatingSequence = Collation.GENERAL };
+        [Theory]
+        [ConnectionStrings]
+        public void Constructor_WithConnectionString_ShouldSetProperties(ConnectionStringsTestCase testCase) {
+            var builder = new VfpConnectionStringBuilder(testCase.ConnectionString);
 
-            Assert.AreEqual("data source=northwind.dbc;Provider=VFPOLEDB;Ansi=True;Deleted=False;Collating Sequence=GENERAL", vfpConnectionStringBuilder.ConnectionString, true);
-            Assert.AreEqual("northwind.dbc", vfpConnectionStringBuilder.DataSource, false);
-            Assert.AreEqual("northwind.dbc", vfpConnectionStringBuilder.Database, false);
-            Assert.AreEqual(true, vfpConnectionStringBuilder.Ansi);
-            Assert.AreEqual(false, vfpConnectionStringBuilder.Deleted);
-            Assert.AreEqual(Collation.GENERAL, vfpConnectionStringBuilder.CollatingSequence);
-            Assert.AreEqual(5, vfpConnectionStringBuilder.Count);
+            Assert.Equal(testCase.ExpectedConnectionString, builder.ConnectionString, true);
+            Assert.Equal(testCase.DataSource, builder.DataSource);
+            Assert.Equal(testCase.Database, builder.Database);
+            Assert.Equal(testCase.IsDbc, builder.IsDbc);
+            Assert.Equal(testCase.Provider, builder.Provider);
         }
 
-        [TestMethod]
-        public void VfpOleDbConnectionStringTest() {
-            var connectionString = "provider=vfpoledb;data source=northwind.dbc;deleted=false;ansi=true;";
-            var vfpConnectionStringBuilder = new VfpConnectionStringBuilder(connectionString);
+        [Fact]
+        public void Constructor_Default_ShouldHaveEmptyProperties() {
+            var builder = new VfpConnectionStringBuilder();
 
-            Assert.AreEqual("provider=vfpoledb;data source=northwind.dbc;deleted=false;ansi=true", vfpConnectionStringBuilder.ConnectionString, true);
-            Assert.AreEqual("northwind.dbc", vfpConnectionStringBuilder.DataSource, false);
-            Assert.AreEqual("northwind.dbc", vfpConnectionStringBuilder.Database, false);
-            Assert.AreEqual(4, vfpConnectionStringBuilder.Count);
+            Assert.Equal(Empty, builder.ConnectionString, true);
+            Assert.Equal(Empty, builder.DataSource);
+            Assert.Equal(Empty, builder.Database);
+            Assert.False(builder.IsDbc);
+            Assert.Equal(Empty, builder.Provider);
         }
 
-        [TestMethod]
-        public void ZeroArgumentContructorTest() {
-            var vfpConnectionStringBuilder = new VfpConnectionStringBuilder();
+        [Theory]
+        [ConnectionStrings]
+        public void ConnectionString_ShouldSetProperties(ConnectionStringsTestCase testCase) {
+            var builder = new VfpConnectionStringBuilder {
+                ConnectionString = testCase.ConnectionString
+            };
 
-            Assert.AreEqual(string.Empty, vfpConnectionStringBuilder.ConnectionString, true);
-            Assert.AreEqual(string.Empty, vfpConnectionStringBuilder.DataSource, false);
-            Assert.AreEqual(string.Empty, vfpConnectionStringBuilder.Database, false);
-            Assert.AreEqual(0, vfpConnectionStringBuilder.Count);
+            Assert.Equal(testCase.ExpectedConnectionString, builder.ConnectionString, true);
+            Assert.Equal(testCase.DataSource, builder.DataSource);
+            Assert.Equal(testCase.Database, builder.Database);
+            Assert.Equal(testCase.IsDbc, builder.IsDbc);
+            Assert.Equal(testCase.Provider, builder.Provider);
         }
 
-        [TestMethod]
-        public void FreeTableTest() {
-            var vfpConnectionStringBuilder = new VfpConnectionStringBuilder(@"c:\");
+        [Fact]
+        public void CollatingSequence_ShouldDefaultToInput() {
+            var builder = new VfpConnectionStringBuilder();
 
-            Assert.AreEqual(@"Data Source=c:\;Provider=VFPOLEDB", vfpConnectionStringBuilder.ConnectionString, true);
-            Assert.AreEqual(@"c:\", vfpConnectionStringBuilder.DataSource, false);
-            Assert.AreEqual(string.Empty, vfpConnectionStringBuilder.Database, false);
+            Assert.Equal(Collation.MACHINE, builder.CollatingSequence);
         }
 
-        [TestMethod]
-        public void DbcOnlyTest() {
-            var vfpConnectionStringBuilder = new VfpConnectionStringBuilder("Northwind.dbc");
+        [Theory]
+        [EnumData(typeof(Collation))]
+        public void CollatingSequence_ShouldSetCollatingSequence(Collation collatingSequence) {
+            var builder = new VfpConnectionStringBuilder {
+                CollatingSequence = collatingSequence
+            };
 
-            Assert.AreEqual("Data Source=Northwind.dbc;Provider=VFPOLEDB", vfpConnectionStringBuilder.ConnectionString, true);
-            Assert.AreEqual("Northwind.dbc", vfpConnectionStringBuilder.DataSource, false);
-            Assert.AreEqual("Northwind.dbc", vfpConnectionStringBuilder.Database, false);
+            Assert.Equal(collatingSequence, builder.CollatingSequence);
         }
 
-        [TestMethod]
-        public void OneStringArgumentConstructorTest() {
-            var vfpConnectionStringBuilder = new VfpConnectionStringBuilder(null);
+        [Fact]
+        public void Ansi_ShouldDefaultToTrue() {
+            var builder = new VfpConnectionStringBuilder();
 
-            Assert.AreEqual(string.Empty, vfpConnectionStringBuilder.ConnectionString, true);
-            Assert.AreEqual(string.Empty, vfpConnectionStringBuilder.DataSource, false);
-            Assert.AreEqual(string.Empty, vfpConnectionStringBuilder.Database, false);
-
-            vfpConnectionStringBuilder = new VfpConnectionStringBuilder(String.Empty);
-
-            Assert.AreEqual(string.Empty, vfpConnectionStringBuilder.ConnectionString, true);
-            Assert.AreEqual(string.Empty, vfpConnectionStringBuilder.DataSource, false);
-            Assert.AreEqual(string.Empty, vfpConnectionStringBuilder.Database, false);
-
-            vfpConnectionStringBuilder = new VfpConnectionStringBuilder("Data Source=Northwind.dbc");
-
-            Assert.AreEqual("Data Source=Northwind.dbc;Provider=VFPOLEDB", vfpConnectionStringBuilder.ConnectionString, true);
-            Assert.AreEqual("Northwind.dbc", vfpConnectionStringBuilder.DataSource, false);
-            Assert.AreEqual("Northwind.dbc", vfpConnectionStringBuilder.Database, false);
+            Assert.True(builder.Ansi);
         }
 
-        [TestMethod]
-        public void ConnectionStringTest() {
-            var vfpConnectionStringBuilder = new VfpConnectionStringBuilder();
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void Ansi_ShouldSetAnsi(bool ansi) {
+            var builder = new VfpConnectionStringBuilder {
+                Ansi = ansi
+            };
 
-            Assert.AreEqual(string.Empty, vfpConnectionStringBuilder.ConnectionString, false);
+            Assert.Equal(ansi, builder.Ansi);
+        }
 
-            vfpConnectionStringBuilder.ConnectionString = "Data Source=Northwind.dbc";
+        [Fact]
+        public void Deleted_ShouldDefaultToTrue() {
+            var builder = new VfpConnectionStringBuilder();
 
-            Assert.AreEqual("Data Source=Northwind.dbc;Provider=VFPOLEDB", vfpConnectionStringBuilder.ConnectionString, true);
-            Assert.AreEqual("Northwind.dbc", vfpConnectionStringBuilder.DataSource, false);
-            Assert.AreEqual("Northwind.dbc", vfpConnectionStringBuilder.Database, false);
+            Assert.True(builder.Deleted);
+        }
 
-            vfpConnectionStringBuilder.ConnectionString = String.Empty;
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void Deleted_ShouldSetDeleted(bool deleted) {
+            var builder = new VfpConnectionStringBuilder {
+                Deleted = deleted
+            };
 
-            Assert.AreEqual(string.Empty, vfpConnectionStringBuilder.ConnectionString, true);
-            Assert.AreEqual(string.Empty, vfpConnectionStringBuilder.DataSource, false);
-            Assert.AreEqual(string.Empty, vfpConnectionStringBuilder.Database, false);
+            Assert.Equal(deleted, builder.Deleted);
+        }
 
-            vfpConnectionStringBuilder.ConnectionString = "Provider=FoxPro";
+        [Fact]
+        public void Null_ShouldDefaultToTrue() {
+            var builder = new VfpConnectionStringBuilder();
 
-            Assert.AreEqual("Provider=FoxPro", vfpConnectionStringBuilder.ConnectionString, true);
-            Assert.AreEqual(string.Empty, vfpConnectionStringBuilder.DataSource, false);
-            Assert.AreEqual(string.Empty, vfpConnectionStringBuilder.Database, false);
+            Assert.True(builder.Null);
+        }
 
-            vfpConnectionStringBuilder.DataSource = "Test.dbc";
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void Null_ShouldSetNull(bool @null) {
+            var builder = new VfpConnectionStringBuilder {
+                Null = @null
+            };
 
-            Assert.AreEqual(vfpConnectionStringBuilder.Database, vfpConnectionStringBuilder.DataSource);
-            vfpConnectionStringBuilder.DataSource = "Test2.dbc";
-            Assert.AreEqual(vfpConnectionStringBuilder.DataSource, vfpConnectionStringBuilder.Database);
+            Assert.Equal(@null, builder.Null);
         }
     }
 }
