@@ -76,11 +76,7 @@ namespace VfpClient {
         private void SetConnectionString(string connectionString) {
             _vfpConnectionStringBuilder.ConnectionString = connectionString;
 
-            var oleDbConnectionStringBuilder = new OleDbConnectionStringBuilder(_vfpConnectionStringBuilder.ConnectionString) {
-                Provider = "VFPOLEDB"
-            };
-
-            OleDbConnection.ConnectionString = oleDbConnectionStringBuilder.ConnectionString;
+            OleDbConnection.ConnectionString = _vfpConnectionStringBuilder.ConnectionString;
         }
 
         public new VfpTransaction BeginTransaction() {
@@ -164,7 +160,7 @@ namespace VfpClient {
 
         public override void Open() {
             try {
-                if (String.IsNullOrWhiteSpace(OleDbConnection.ConnectionString)) {
+                if (String.IsNullOrEmpty(OleDbConnection.ConnectionString)) {
                     SetConnectionString(_vfpConnectionStringBuilder.ConnectionString);
                 }
 

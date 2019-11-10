@@ -8,13 +8,13 @@ namespace VfpClient.Tests {
         public void VfpConnectionStringBuilderPropertiesTest() {
             var vfpConnectionStringBuilder = new VfpConnectionStringBuilder("northwind.dbc") { Ansi = true, Deleted = false, CollatingSequence = Collation.GENERAL };
 
-            Assert.AreEqual("data source=northwind.dbc;Ansi=True;Deleted=False;Collating Sequence=GENERAL", vfpConnectionStringBuilder.ConnectionString, true);
+            Assert.AreEqual("data source=northwind.dbc;Provider=VFPOLEDB;Ansi=True;Deleted=False;Collating Sequence=GENERAL", vfpConnectionStringBuilder.ConnectionString, true);
             Assert.AreEqual("northwind.dbc", vfpConnectionStringBuilder.DataSource, false);
             Assert.AreEqual("northwind.dbc", vfpConnectionStringBuilder.Database, false);
             Assert.AreEqual(true, vfpConnectionStringBuilder.Ansi);
             Assert.AreEqual(false, vfpConnectionStringBuilder.Deleted);
             Assert.AreEqual(Collation.GENERAL, vfpConnectionStringBuilder.CollatingSequence);
-            Assert.AreEqual(4, vfpConnectionStringBuilder.Count);
+            Assert.AreEqual(5, vfpConnectionStringBuilder.Count);
         }
 
         [TestMethod]
@@ -42,7 +42,7 @@ namespace VfpClient.Tests {
         public void FreeTableTest() {
             var vfpConnectionStringBuilder = new VfpConnectionStringBuilder(@"c:\");
 
-            Assert.AreEqual(@"Data Source=c:\", vfpConnectionStringBuilder.ConnectionString, true);
+            Assert.AreEqual(@"Data Source=c:\;Provider=VFPOLEDB", vfpConnectionStringBuilder.ConnectionString, true);
             Assert.AreEqual(@"c:\", vfpConnectionStringBuilder.DataSource, false);
             Assert.AreEqual(string.Empty, vfpConnectionStringBuilder.Database, false);
         }
@@ -51,7 +51,7 @@ namespace VfpClient.Tests {
         public void DbcOnlyTest() {
             var vfpConnectionStringBuilder = new VfpConnectionStringBuilder("Northwind.dbc");
 
-            Assert.AreEqual("Data Source=Northwind.dbc", vfpConnectionStringBuilder.ConnectionString, true);
+            Assert.AreEqual("Data Source=Northwind.dbc;Provider=VFPOLEDB", vfpConnectionStringBuilder.ConnectionString, true);
             Assert.AreEqual("Northwind.dbc", vfpConnectionStringBuilder.DataSource, false);
             Assert.AreEqual("Northwind.dbc", vfpConnectionStringBuilder.Database, false);
         }
@@ -72,7 +72,7 @@ namespace VfpClient.Tests {
 
             vfpConnectionStringBuilder = new VfpConnectionStringBuilder("Data Source=Northwind.dbc");
 
-            Assert.AreEqual("Data Source=Northwind.dbc", vfpConnectionStringBuilder.ConnectionString, true);
+            Assert.AreEqual("Data Source=Northwind.dbc;Provider=VFPOLEDB", vfpConnectionStringBuilder.ConnectionString, true);
             Assert.AreEqual("Northwind.dbc", vfpConnectionStringBuilder.DataSource, false);
             Assert.AreEqual("Northwind.dbc", vfpConnectionStringBuilder.Database, false);
         }
@@ -85,7 +85,7 @@ namespace VfpClient.Tests {
 
             vfpConnectionStringBuilder.ConnectionString = "Data Source=Northwind.dbc";
 
-            Assert.AreEqual("Data Source=Northwind.dbc", vfpConnectionStringBuilder.ConnectionString, true);
+            Assert.AreEqual("Data Source=Northwind.dbc;Provider=VFPOLEDB", vfpConnectionStringBuilder.ConnectionString, true);
             Assert.AreEqual("Northwind.dbc", vfpConnectionStringBuilder.DataSource, false);
             Assert.AreEqual("Northwind.dbc", vfpConnectionStringBuilder.Database, false);
 

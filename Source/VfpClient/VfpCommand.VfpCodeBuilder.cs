@@ -58,7 +58,7 @@ namespace VfpClient {
                     lines.Add(line + (line.TrimStart().StartsWith(VariablePrefix) ? string.Empty : " ;"));
                 }
 
-                text = string.Join(Environment.NewLine, lines);
+                text = string.Join(Environment.NewLine, lines.ToArray());
 
                 if (text.EndsWith(";")) {
                     text = text.Substring(0, text.LastIndexOf(";"));

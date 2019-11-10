@@ -3,59 +3,79 @@ using System.ComponentModel;
 using System.Data.Common;
 using System.IO;
 using System.Linq;
+using static System.String;
 
 namespace VfpClient {
     public class VfpConnectionStringBuilder : DbConnectionStringBuilder {
+        public const string DefaultProvider = "VFPOLEDB";
+        private const string AnsiKey = "Ansi";
+        private const string CollatingSequenceKey = "Collating Sequence";
+        private const string DataSourceKey = "Data Source";
+        private const string DeletedKey = "Deleted";
+        private const string NullKey = "Null";
+        private const string ProviderKey = "Provider";
+
         public new string ConnectionString {
-            get { return base.ConnectionString; }
+            get => base.ConnectionString;
             set {
                 var connectionString = value;
 
-                if (MissingDataSource(connectionString)) {
-                    connectionString = "Data Source=" + connectionString;
+                if(MissingDataSource(connectionString)) {
+                    connectionString = $"{DataSourceKey}={connectionString}";
                 }
 
                 base.ConnectionString = connectionString;
+
+                EnsureProviderIsSet();
             }
         }
 
-        [DisplayName("Data Source")]
-        public string DataSource {
-            get { return ContainsKey("Data Source") ? this["Data Source"] as string : string.Empty; }
-            set { this["Data Source"] = value; }
+        [DisplayName(ProviderKey)]
+        public string Provider {
+            get => ContainsKey(ProviderKey) ? this[ProviderKey] as string : Empty;
+            set => this[ProviderKey] = value;
         }
 
-        private const string CollatingSequenceKey = "Collating Sequence";
-        [DisplayName("Collating Sequence")]
+        [DisplayName(DataSourceKey)]
+        public string DataSource {
+            get => ContainsKey(DataSourceKey) ? this[DataSourceKey] as string : Empty;
+            set {
+                this[DataSourceKey] = value;
+
+                EnsureProviderIsSet();
+            }
+        }
+
+        [DisplayName(CollatingSequenceKey)]
         [DefaultValue(Collation.MACHINE)]
         [TypeConverter(typeof(CollationEnumConverter))]
         public Collation CollatingSequence {
-            get { return GetCollation(); }
-            set { base[CollatingSequenceKey] = value; }
+            get => GetCollation();
+            set => base[CollatingSequenceKey] = value;
         }
 
-        [DisplayName("Ansi")]
+        [DisplayName(AnsiKey)]
         [DefaultValue(true)]
         [Description("Set as false to have string comparisons match based on the length of the shorter string.")]
         public bool Ansi {
-            get { return GetBooleanValue("Ansi", true); }
-            set { this["Ansi"] = value; }
+            get => GetBooleanValue(AnsiKey, true);
+            set => this[AnsiKey] = value;
         }
 
-        [DisplayName("Deleted")]
+        [DisplayName(DeletedKey)]
         [DefaultValue(true)]
         [Description("Set as false to include deleted records when querying data.")]
         public bool Deleted {
-            get { return GetBooleanValue("Deleted", true); }
-            set { this["Deleted"] = value; }
+            get => GetBooleanValue(DeletedKey, true);
+            set => this[DeletedKey] = value;
         }
 
-        [DisplayName("Null")]
+        [DisplayName(NullKey)]
         [DefaultValue(true)]
         [Description("")]
         public bool Null {
-            get { return GetBooleanValue("Null", true); }
-            set { this["Null"] = value; }
+            get => GetBooleanValue(NullKey, true);
+            set => this[NullKey] = value;
         }
 
         [Browsable(false)]
@@ -65,23 +85,23 @@ namespace VfpClient {
         public bool IsDbc { get; private set; }
 
         public override object this[string keyword] {
-            get { return base[keyword]; }
+            get => base[keyword];
             set {
                 base[keyword] = value;
 
-                if (!keyword.Equals("Data Source", StringComparison.InvariantCultureIgnoreCase)) {
+                if(!keyword.Equals(DataSourceKey, StringComparison.InvariantCultureIgnoreCase)) {
                     return;
                 }
 
                 var dataSource = value as string;
-                var fileName = string.Empty;
+                var fileName = Empty;
 
-                if (!string.IsNullOrEmpty(dataSource)) {
+                if(!IsNullOrEmpty(dataSource)) {
                     fileName = GetFileName(dataSource);
                     IsDbc = fileName.EndsWith(".dbc", true, null);
 
-                    if (!IsDbc) {
-                        fileName = string.Empty;
+                    if(!IsDbc) {
+                        fileName = Empty;
                     }
                 }
 
@@ -90,8 +110,8 @@ namespace VfpClient {
         }
 
         private static string GetFileName(string dataSource) {
-            if (string.IsNullOrEmpty(dataSource) || Path.GetInvalidPathChars().Any(dataSource.Contains)) {
-                return string.Empty;
+            if(IsNullOrEmpty(dataSource) || Path.GetInvalidPathChars().Any(dataSource.Contains)) {
+                return Empty;
             }
 
             return Path.GetFileName(dataSource);
@@ -107,23 +127,34 @@ namespace VfpClient {
         }
 
         public override void Clear() {
-            Database = string.Empty;
+            Database = Empty;
             IsDbc = false;
+
             base.Clear();
         }
 
-        private static bool MissingDataSource(string connectionString) {
-            return string.IsNullOrEmpty(connectionString) || !connectionString.Contains("=");
+        public void EnsureProviderIsSet() {
+            if(IsNullOrEmpty(ConnectionString)) {
+                return;
+            }
+
+            if(!IsNullOrEmpty(Provider)) {
+                return;
+            }
+
+            Provider = DefaultProvider;
         }
 
-        private Collation GetCollation() {
-            return GetCollation(ContainsKey(CollatingSequenceKey) ? this[CollatingSequenceKey].ToString() : null);
-        }
+        private static bool MissingDataSource(string connectionString) =>
+            IsNullOrEmpty(connectionString) || !connectionString.Contains("=");
+
+        private Collation GetCollation() =>
+            GetCollation(ContainsKey(CollatingSequenceKey) ? this[CollatingSequenceKey].ToString() : null);
 
         private static Collation GetCollation(string collationText) {
             var collation = Collation.MACHINE;
 
-            if (collationText != null) {
+            if(collationText != null) {
                 collation = (Collation)Enum.Parse(typeof(Collation), collationText, true);
             }
 
@@ -131,14 +162,11 @@ namespace VfpClient {
         }
 
         private bool GetBooleanValue(string key, bool defaultValue = false) {
-            bool result;
-            object value;
-
-            if (!TryGetValue(key, out value)) {
+            if(!TryGetValue(key, out var value)) {
                 return defaultValue;
             }
 
-            return bool.TryParse(value.ToString(), out result) && result;
+            return bool.TryParse(value.ToString(), out var result) && result;
         }
     }
 }
