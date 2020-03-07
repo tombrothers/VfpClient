@@ -82,7 +82,7 @@ namespace VfpClient.Tests {
         }
 
         private string GetNewDbcFullPath() {
-            var directory = Path.Combine(Path.GetDirectoryName(this.fixture.DataDirectory), Guid.NewGuid().ToString());
+            var directory = Path.Combine(Path.GetDirectoryName(this.fixture.DataDirectory), Guid.NewGuid().ToString().Substring(0, 8));
 
             Directory.CreateDirectory(directory);
 

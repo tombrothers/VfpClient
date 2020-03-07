@@ -14,7 +14,7 @@ namespace VfpClient.Tests.Fixtures {
         }
 
         protected DataFixtureBase() {
-            this.DataDirectory = Path.Combine(RootDirectory, $"Data-{Guid.NewGuid().ToString()}");
+            this.DataDirectory = Path.Combine(RootDirectory, $"Data-{Guid.NewGuid().ToString().Substring(0, 8)}");
 
             Directory.CreateDirectory(this.DataDirectory);
         }
