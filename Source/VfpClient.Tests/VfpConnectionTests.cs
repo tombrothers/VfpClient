@@ -12,7 +12,7 @@ namespace VfpClient.Tests {
             this.fixture = fixture;
         }
 
-        [Fact]
+        [Fact(Skip = "unreliable")]
         public void PackTest() {
             var dbc = CreateTempDbc();
             var builder = new VfpConnectionStringBuilder(dbc);
@@ -45,7 +45,7 @@ namespace VfpClient.Tests {
             }
         }
 
-        [Fact]
+        [Fact(Skip = "unreliable")]
         public void ZapTest() {
             var dbc = CreateTempDbc();
 
