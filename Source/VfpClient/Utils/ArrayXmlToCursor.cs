@@ -183,8 +183,8 @@ namespace VfpClient.Utils {
             var separator = Thread.CurrentThread.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
 
             var query = values.Select(x => x.ToString())
-                              .Where(x => x.Contains("."))
-                              .Select(x => x.Substring(x.IndexOf(".")))
+                              .Where(x => x.Contains(separator))
+                              .Select(x => x.Substring(x.IndexOf(separator)))
                               .Select(x => x.Length);
 
             if (query.Any()) {
