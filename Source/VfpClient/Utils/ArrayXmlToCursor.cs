@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Xml.Linq;
 
 namespace VfpClient.Utils {
@@ -179,6 +180,8 @@ namespace VfpClient.Utils {
         private XElement GetNumericAttributeElement() {
             var values = GetStringArray();
             var fractionDigits = 0;
+            var separator = Thread.CurrentThread.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
+
             var query = values.Select(x => x.ToString())
                               .Where(x => x.Contains("."))
                               .Select(x => x.Substring(x.IndexOf(".")))
