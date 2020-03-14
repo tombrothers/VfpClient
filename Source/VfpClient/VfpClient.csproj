@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;net40</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2.1</TargetFrameworks>
     <PlatformTarget>x86</PlatformTarget>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
     <Authors>Tom Brothers</Authors>
@@ -9,11 +9,10 @@
     <Description>Visual FoxPro Client for ADO.Net is simply a wrapper around the System.Data.OleDb classes with the goal of reducing pain points when accessing VFP data from .Net.</Description>
     <PackageProjectUrl>https://github.com/tombrothers/VfpClient/</PackageProjectUrl>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
-    <PackageReference Include="System.Data.OleDb" Version="4.6.0" />
+    <PackageReference Include="System.Data.OleDb" Version="5.0.0-preview.3.20164.2" />
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
   </ItemGroup>
 
