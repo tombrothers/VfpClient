@@ -23,6 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Data.OleDb" Version="5.0.0-rc.1.20451.14" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="VfpMapping.codegen.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>VfpMapping.codegen.cs</LastGenOutput>
