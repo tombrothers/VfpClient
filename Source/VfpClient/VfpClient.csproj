@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
-    <PackageReference Include="System.Data.OleDb" Version="5.0.0-preview.3.20164.2" />
+    <PackageReference Include="System.Data.OleDb" Version="5.0.0-rc.1.20451.14" />
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
   </ItemGroup>
 
@@ -20,10 +20,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Transactions" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Data.OleDb" Version="5.0.0-rc.1.20451.14" />
   </ItemGroup>
 
   <ItemGroup>
