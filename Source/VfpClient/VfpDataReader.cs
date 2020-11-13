@@ -215,8 +215,16 @@ namespace VfpClient {
             return _columnVfpTypes;
         }
 
+        static DateTime NullFoxDate = new DateTime(1899, 12, 30, 00, 00, 00);
         public override bool IsDBNull(int ordinal) {
-            return Execute(() => _dbDataReader.IsDBNull(ordinal));
+            return Execute(() =>
+            {
+                bool isDBNull = _dbDataReader.IsDBNull(ordinal);
+                var objvalue = _dbDataReader.GetValue(ordinal);
+                if (objvalue is DateTime && ((DateTime)objvalue == NullFoxDate)
+                   isDBNull = true;
+                return isDBNull;
+            });
         }
 
         public override bool NextResult() {
