@@ -9,6 +9,8 @@ using System.Text;
 
 namespace VfpClient {
     public partial class VfpDataReader : DbDataReader {
+        private static DateTime NullFoxDate = new DateTime(1899, 12, 30, 00, 00, 00);
+
         private Dictionary<string, VfpType> _columnVfpTypes;
         private readonly DbDataReader _dbDataReader;
 
@@ -215,14 +217,19 @@ namespace VfpClient {
             return _columnVfpTypes;
         }
 
-        static DateTime NullFoxDate = new DateTime(1899, 12, 30, 00, 00, 00);
-        public override bool IsDBNull(int ordinal) {
+
+        public override bool IsDBNull(int ordinal)
+        {
             return Execute(() =>
             {
-                bool isDBNull = _dbDataReader.IsDBNull(ordinal);
+                var isDBNull = _dbDataReader.IsDBNull(ordinal);
                 var objvalue = _dbDataReader.GetValue(ordinal);
-                if (objvalue is DateTime && ((DateTime)objvalue == NullFoxDate)
-                   isDBNull = true;
+
+                if (objvalue is DateTime dateTime && (dateTime == NullFoxDate))
+                {
+                    isDBNull = true;
+                }
+
                 return isDBNull;
             });
         }
